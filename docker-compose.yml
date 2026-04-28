@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - DB_HOST=postgres
+      - DB_USER=smartcart
+      - DB_PASSWORD=admin
+      - DB_NAME=smartcartdb
+      - DB_PORT=5432
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: smartcart
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: smartcartdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
