@@ -4,3 +4,4 @@ Includes:
 - Backend (Node.js)
 - AI Service (Python)
 - DevOps (Docker, CI/CD)
+Test CI/CD pipeline

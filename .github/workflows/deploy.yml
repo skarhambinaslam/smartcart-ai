@@ -1,0 +1,40 @@
+name: SmartCart AI CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build Backend Image
+      run: docker build -t smartcart-backend ./backend
+
+    - name: Run Containers
+      run: |
+        docker-compose down
+        docker-compose up -d --build
+
+
+    - name: Deploy to Server via SSH
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+      host: 203.130.0.228
+      port: 3030
+      username: root
+      key: ${{ secrets.SSH_PRIVATE_KEY }}
+      script: |
+        cd /opt/smartcart-ai
+        git pull origin main
+        docker-compose down
+        docker-compose up -d --build
