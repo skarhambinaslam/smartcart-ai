@@ -12,7 +12,7 @@ services:
   ai-service:
     build: ./ai-service
     ports:
-      - "6000:6000"
+      - "7000:6000"
     depends_on:
       - backend
 
